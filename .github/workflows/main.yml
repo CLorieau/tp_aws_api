@@ -22,7 +22,7 @@ jobs:
         run : ls -lah
 
   build :
-    # needs: test
+    needs: test
     name: build
     runs-on: ubuntu-latest
     steps: 
