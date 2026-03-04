@@ -34,7 +34,7 @@ jobs:
         run: docker build -t ${{env.IMAGE_NAME}} .
       
       - name: run image
-        run: docker run -p 3000:3000 ${{env.IMAGE_NAME}}
+        run: docker run -d -p 3000:3000 ${{env.IMAGE_NAME}}
 
       - name: tester le conteneur
         run: "curl 127.0.0.1:3000"
