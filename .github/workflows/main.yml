@@ -69,8 +69,7 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.KEY }}
           script: |
-            echo ${{secrets.TOKENCICD}}
-            docker login ghcr.io -u clorieau --password-stdin
+            echo ${{secrets.TOKENCICD}} | docker login ghcr.io -u clorieau --password-stdin
             docker pull ${{env.REPO}}/clorieau/${{env.IMAGE_NAME}}:latest
             docker run -d -p 3000:3000 --name ${{env.IMAGE_NAME}} ${{env.REPO}}/clorieau/${{env.IMAGE_NAME}}:latest
             curl localhost:3000
