@@ -55,7 +55,24 @@ jobs:
 
       - name: push image latest
         run: docker push ${{env.REPO}}/clorieau/${{env.IMAGE_NAME}}:latest
-        
+
+  deploy:
+    needs: build
+    name: deploy
+    runs-on: ubuntu-latest
+    steps: 
+
+      - name: connexion au VPS sur aws
+        run : appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          script: |
+            pwd
+            ls
+    
+     
 
       
       
