@@ -7,6 +7,7 @@ on:
 
 env:
   IMAGE_NAME: masterapp
+  REPO: ghcr.io
 
 jobs:
 
@@ -23,7 +24,7 @@ jobs:
 
   build :
     needs: test
-    name: build
+    name: build and push
     runs-on: ubuntu-latest
     steps: 
     
@@ -36,7 +37,26 @@ jobs:
       - name: run image
         run: docker run -d -p 3000:3000 ${{env.IMAGE_NAME}}
 
-      - name: tester le conteneur
-        run: "curl 127.0.0.1:3000"
+      - name: taguer en version courante
+        run: docker tag ${{env.IMAGE_NAME}}:1.0 ${{env.REPO}}/${{ github.actor }}/${{env.IMAGE_NAME}}:1.0
+
+      - name: taguer en version latest
+        run: docker tag ${{env.IMAGE_NAME}}:latest ${{env.REPO}}/${{ github.actor }}/${{env.IMAGE_NAME}}:latest
+
+      - name : connexion a GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ${{env.REPO}}
+          username: ${{ github.actor }}
+          password: ${{ secrets.TOKENCICD }}
+
+      - name: push image v1.0
+        run: docker push ${{env.REPO}}/${{ github.actor }}/${{env.IMAGE_NAME}}:1.0
+
+      - name: push image latest
+        run: docker push ${{env.REPO}}/${{ github.actor }}/${{env.IMAGE_NAME}}:latest
+        
+
+        
 
       
