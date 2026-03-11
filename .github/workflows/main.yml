@@ -63,7 +63,7 @@ jobs:
     steps: 
 
       - name: connexion au VPS sur aws
-        run : appleboy/ssh-action@v1.0.3
+        uses : appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
@@ -71,8 +71,3 @@ jobs:
           script: |
             pwd
             ls
-    
-     
-
-      
-      
